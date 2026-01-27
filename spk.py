@@ -48,5 +48,8 @@ def get_data(driver, menu, sub_menu):
 
     for f in os.listdir(download_path):
         if f.startswith("Laporan-Summary") and f.endswith(".xls"):
-            new_name = "SPK.xls"
+            if menu == "Summary SPK":
+                new_name = "SPK.xls"
+            elif menu == "Summary RS":
+                new_name = "DO.xls"
             os.rename(os.path.join(download_path, f), os.path.join(download_path, new_name))

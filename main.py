@@ -36,6 +36,6 @@ time.sleep(3)
 
 get_data(driver, "Summary SPK", "Valid By Branch")
 
-driver.quit()
-
 sync_data()
+
+get_data(driver, "Summary RS", "By Branch")
