@@ -1,6 +1,11 @@
 from selenium.webdriver.common.by import By
 from datetime import datetime
-import time
+from dotenv import load_dotenv
+import time, os
+
+load_dotenv()
+
+download_path = os.getenv("DOWNLOAD_PATH")
 
 def get_data(driver, menu, sub_menu):
     btn_menu = driver.find_element(By.XPATH, f"//span[text()='{menu}']")
@@ -40,3 +45,10 @@ def get_data(driver, menu, sub_menu):
     driver.execute_script("arguments[0].click();", btn_export)
 
     time.sleep(10)
+    
+    for f in os.listdir(download_path):
+        if f.startswith("Laporan-Summary") and f.endswith(".xls"):
+            new_name = "SPK.xls"
+            os.rename(
+                os.path.join(download_path, f), os.path.join(download_path, new_name)
+            )
