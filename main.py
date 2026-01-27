@@ -3,6 +3,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from dotenv import load_dotenv
 from spk import get_data
+from sync import sync_data
 import time, os
 
 load_dotenv()
@@ -36,3 +37,5 @@ time.sleep(3)
 get_data(driver, "Summary SPK", "Valid By Branch")
 
 driver.quit()
+
+sync_data()
