@@ -34,3 +34,5 @@ driver.find_element(By.CSS_SELECTOR, ".home-button.button").click()
 time.sleep(3)
 
 get_data(driver, "Summary SPK", "Valid By Branch")
+
+driver.quit()
