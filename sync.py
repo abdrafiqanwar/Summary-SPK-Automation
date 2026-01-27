@@ -19,29 +19,28 @@ def sync_data():
 
     if not files:
         print("File tidak ditemukan ⚠️")
-    else:
-        latest_file = max(files, key=os.path.getctime)
-        file_name = os.path.basename(latest_file)
+        return
+    
+    scope = [
+        "https://www.googleapis.com/auth/spreadsheets",
+        "https://www.googleapis.com/auth/drive",
+    ]
 
-        df = pd.read_html(latest_file)
-        df = df[0]
+    creds = Credentials.from_service_account_file("credentials.json", scopes=scope)
+    client = gspread.authorize(creds)
+    spreadsheet = client.open_by_key(spreadsheet_id)
 
-        scope = [
-            "https://www.googleapis.com/auth/spreadsheets",
-            "https://www.googleapis.com/auth/drive",
-        ]
+    for file in files:
+        file_name = os.path.basename(file)
 
-        creds = Credentials.from_service_account_file("credentials.json", scopes=scope)
-        client = gspread.authorize(creds)
-
-        spreadsheet = client.open_by_key(spreadsheet_id)
-        
         if file_name.startswith("SPK"):
-            worksheet = spreadsheet.worksheet("SPK")
+            sheet_name = "SPK"
         elif file_name.startswith("DO"):
-            worksheet = spreadsheet.worksheet("DO")
-        
+            sheet_name = "DO"
+
+        df = pd.read_html(file)[0]
         df = df.fillna("")
 
+        worksheet = spreadsheet.worksheet(sheet_name)
         worksheet.clear()
         worksheet.update([df.columns.values.tolist()] + df.values.tolist())
