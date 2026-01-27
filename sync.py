@@ -38,7 +38,9 @@ def sync_data():
         
         if file_name.startswith("SPK"):
             worksheet = spreadsheet.worksheet("SPK")
-
+        elif file_name.startswith("DO"):
+            worksheet = spreadsheet.worksheet("DO")
+        
         df = df.fillna("")
 
         worksheet.clear()
