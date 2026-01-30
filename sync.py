@@ -44,3 +44,27 @@ def sync_data():
         worksheet = spreadsheet.worksheet(sheet_name)
         worksheet.clear()
         worksheet.update([df.columns.values.tolist()] + df.values.tolist())
+
+        resize_columns(spreadsheet, worksheet, df)
+
+
+def resize_columns(spreadsheet, worksheet, df):
+    sheet_id = worksheet.id
+    col_count = len(df.columns)
+
+    body = {
+        "requests": [
+            {
+                "autoResizeDimensions": {
+                    "dimensions": {
+                        "sheetId": sheet_id,
+                        "dimension": "COLUMNS",
+                        "startIndex": 0,
+                        "endIndex": col_count
+                    }
+                }
+            }
+        ]
+    }
+
+    spreadsheet.batch_update(body)
