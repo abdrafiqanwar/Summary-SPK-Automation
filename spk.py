@@ -44,12 +44,17 @@ def get_data(driver, menu, sub_menu):
 
     driver.execute_script("arguments[0].click();", btn_export)
 
-    time.sleep(5)
+    while any(f.endswith(".crdownload") for f in os.listdir(download_path)):
+        time.sleep(1)
 
-    for f in os.listdir(download_path):
-        if f.startswith("Laporan-Summary") and f.endswith(".xls"):
-            if menu == "Summary SPK":
-                new_name = "SPK.xls"
-            elif menu == "Summary RS":
-                new_name = "DO.xls"
-            os.rename(os.path.join(download_path, f), os.path.join(download_path, new_name))
+    while True:
+        time.sleep(1)
+
+        for f in os.listdir(download_path):
+            if f.startswith("Laporan-Summary") and f.endswith(".xls"):
+                if menu == "Summary SPK":
+                    new_name = "SPK.xls"
+                elif menu == "Summary RS":
+                    new_name = "DO.xls"
+                os.rename(os.path.join(download_path, f), os.path.join(download_path, new_name))
+        break
